@@ -1,0 +1,61 @@
+﻿2026-11-17T10:32:44.054786Z	    9 Query	CREATE DATABASE sales_norm CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+2026-11-17T10:32:44.085709Z	    9 Query	show databases
+2026-11-17T10:32:44.105135Z	    9 Query	CREATE TABLE sales_unnormalized_2 (
+2026-11-17T10:32:47.055858Z	    9 Query	INSERT INTO sales_unnormalized_2 VALUES
+2026-11-17T10:32:54.566180Z	    9 Query	SELECT * FROM sales_unnormalized_2
+2026-11-17T10:32:56.556395Z	    9 Query	SELECT SUM(price * quantity) AS total FROM sales_unnormalized_2
+2026-11-17T10:35:12.135198Z	    9 Query	UPDATE sales_unnormalized_2 
+2026-11-17T10:35:14.030416Z	    9 Query	SELECT * FROM sales_unnormalized_2 WHERE customer_id = 12
+2026-11-17T10:35:19.999441Z	    9 Query	DELETE FROM sales_unnormalized_2 WHERE customer_id = 23
+2026-11-17T10:35:20.864620Z	    9 Query	SELECT * FROM sales_unnormalized_2 WHERE customer_name = 'Испания'
+2026-11-17T10:35:31.561425Z	    9 Query	INSERT INTO sales_unnormalized_2 VALUES
+2026-11-17T10:36:49.595850Z	    9 Query	INSERT INTO sales_unnormalized_2 VALUES
+2026-11-17T10:36:55.032801Z	    9 Query	INSERT INTO sales_unnormalized_2 (customer_id, customer_name) 
+2026-11-17T10:36:55.671917Z	    9 Query	SELECT * FROM sales_unnormalized_2 WHERE customer_id = 99
+2026-11-17T10:37:00.958903Z	    9 Query	DELETE FROM sales_unnormalized_2 WHERE customer_id = 99
+2026-11-17T10:37:06.340804Z	    9 Query	UPDATE sales_unnormalized_2 
+2026-11-17T10:37:07.206149Z	    9 Query	SELECT * FROM sales_unnormalized_2
+2026-11-17T10:37:22.365685Z	   10 Query	use `sales_norm`
+2026-11-17T10:38:21.390853Z	   11 Query	show databases
+2026-11-17T10:38:28.905192Z	   11 Query	CREATE TABLE customers (
+2026-11-17T10:38:28.991818Z	   11 Query	CREATE TABLE products (
+2026-11-17T10:38:29.064645Z	   11 Query	CREATE TABLE reports (
+2026-11-17T10:38:29.849331Z	   11 Query	CREATE TABLE report_items (
+2026-11-17T10:38:39.010207Z	   11 Query	DESCRIBE customers
+2026-11-17T10:38:39.015324Z	   11 Query	DESCRIBE products
+2026-11-17T10:38:39.017473Z	   11 Query	DESCRIBE reports
+2026-11-17T10:38:49.651285Z	   11 Query	DESCRIBE report_items
+2026-11-17T10:39:26.944974Z	   11 Query	SELECT * FROM customers
+2026-11-17T10:39:26.946346Z	   11 Query	SELECT * FROM products
+2026-11-17T10:39:26.947258Z	   11 Query	SELECT * FROM reports
+2026-11-17T10:39:28.014831Z	   11 Query	SELECT * FROM report_items
+2026-11-17T10:40:41.346013Z	   11 Query	SELECT SUM(price * quantity) AS total_old FROM sales_unnormalized_2
+2026-11-17T10:40:41.347502Z	   11 Query	SELECT SUM(p.price * ri.quantity) AS total_new
+2026-11-17T10:40:41.348811Z	   11 Query	SELECT COUNT(*) AS customers_count FROM customers
+2026-11-17T10:40:41.349979Z	   11 Query	SELECT COUNT(*) AS products_count FROM products
+2026-11-17T10:40:41.351418Z	   11 Query	SELECT COUNT(*) AS reports_count FROM reports
+2026-11-17T10:40:42.548190Z	   11 Query	SELECT COUNT(*) AS items_count FROM report_items
+2026-11-17T10:40:56.186420Z	   11 Query	SELECT SUM(p.price * ri.quantity) AS total_spent
+2026-11-17T10:41:22.324681Z	   11 Query	INSERT INTO customers (customer_id, customer_name)
+2026-11-17T10:41:28.038442Z	   11 Query	INSERT INTO products (product_id, product_name, price)
+2026-11-17T10:41:33.647538Z	   11 Query	INSERT INTO reports (report_id, report_date, customer_id)
+2026-11-17T10:41:42.497685Z	   11 Query	INSERT INTO report_items (report_id, product_id, quantity)
+2026-11-17T10:42:39.469125Z	   11 Query	TRUNCATE TABLE report_items
+2026-11-17T10:42:46.736947Z	   11 Query	SELECT COUNT(*) FROM report_items
+2026-11-17T10:42:52.075201Z	   11 Query	SELECT COUNT(*) FROM customers
+2026-11-17T10:42:52.077806Z	   11 Query	SELECT COUNT(*) FROM products
+2026-11-17T10:43:02.840619Z	   11 Query	SELECT COUNT(*) FROM reports
+2026-11-17T10:43:06.794168Z	   11 Query	INSERT INTO report_items (report_id, product_id, quantity)
+2026-11-17T10:44:03.315555Z	   11 Query	INSERT INTO report_items (report_id, product_id, quantity)
+2026-11-17T10:44:09.170325Z	   11 Query	INSERT IGNORE INTO report_items (report_id, product_id, quantity)
+2026-11-17T10:44:15.947316Z	   11 Query	SELECT COUNT(*) FROM report_items
+2026-11-17T10:44:22.129544Z	   11 Query	SELECT * FROM report_items
+2026-11-17T10:44:22.130841Z	   11 Query	SELECT SUM(price * quantity) AS total_old FROM sales_unnormalized_2
+2026-11-17T10:45:24.131771Z	   11 Query	SELECT SUM(p.price * ri.quantity) AS total_new
+2026-11-17T10:46:31.676562Z	   11 Query	DELETE FROM sales_unnormalized_2 
+2026-11-17T10:46:37.673577Z	   11 Query	SELECT SUM(price * quantity) AS total_old FROM sales_unnormalized_2
+2026-11-17T10:46:43.692045Z	   11 Query	SELECT COUNT(*) AS customers FROM customers
+2026-11-17T10:46:43.695987Z	   11 Query	SELECT COUNT(*) AS products FROM products
+2026-11-17T10:46:43.700848Z	   11 Query	SELECT COUNT(*) AS reports FROM reports
+2026-11-17T10:46:44.817278Z	   11 Query	SELECT COUNT(*) AS items FROM report_items
+2026-11-17T10:46:55.261754Z	   11 Query	SELECT SUM(p.price * ri.quantity) AS total_spent

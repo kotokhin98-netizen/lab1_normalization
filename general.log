@@ -1,0 +1,180 @@
+/usr/sbin/mysqld, Version: 8.0.46 (MySQL Community Server - GPL). started with:
+Tcp port: 3306  Unix socket: /var/run/mysqld/mysqld.sock
+Time                 Id Command    Argument
+2026-11-17T10:32:24.527566Z	    9 Query	SHOW VARIABLES LIKE 'general_log%'
+2026-11-17T10:32:44.054786Z	    9 Query	CREATE DATABASE sales_norm CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+2026-11-17T10:32:44.084264Z	    9 Query	SELECT DATABASE()
+2026-11-17T10:32:44.084645Z	    9 Init DB	sales_norm
+2026-11-17T10:32:44.085709Z	    9 Query	show databases
+2026-11-17T10:32:44.099081Z	    9 Query	show tables
+2026-11-17T10:32:44.105135Z	    9 Query	CREATE TABLE sales_unnormalized_2 (
+    report_id     INT,
+    report_date   DATE,
+    customer_id   INT,
+    customer_name VARCHAR(100),
+    product_id    INT,
+    product_name  VARCHAR(100),
+    price         DECIMAL(10,2),
+    quantity      INT
+)
+2026-11-17T10:32:47.055858Z	    9 Query	INSERT INTO sales_unnormalized_2 VALUES
+(1101, '2026-03-05', 12, 'Дания',   101, 'Дыни',      800, 1100),
+(1101, '2026-03-05', 12, 'Дания',   102, 'Клубника',  150,  300),
+(1102, '2026-03-07', 23, 'Испания', 103, 'Яблоки',    120, 1700),
+(1103, '2026-03-08', 25, 'Албания', 104, 'Лимоны',    200,  500),
+(1104, '2026-03-10', 12, 'Дания',   101, 'Дыни',      800, 2500),
+(1105, '2026-03-12', 25, 'Албания', 103, 'Яблоки',    120, 2000),
+(1105, '2026-03-12', 25, 'Албания', 104, 'Лимоны',    200,  700)
+2026-11-17T10:32:54.566180Z	    9 Query	SELECT * FROM sales_unnormalized_2
+2026-11-17T10:32:56.556395Z	    9 Query	SELECT SUM(price * quantity) AS total FROM sales_unnormalized_2
+2026-11-17T10:35:12.135198Z	    9 Query	UPDATE sales_unnormalized_2 
+SET customer_name = 'Дания-РФ' 
+WHERE report_id = 1101 AND product_id = 101
+2026-11-17T10:35:14.030416Z	    9 Query	SELECT * FROM sales_unnormalized_2 WHERE customer_id = 12
+2026-11-17T10:35:19.999441Z	    9 Query	DELETE FROM sales_unnormalized_2 WHERE customer_id = 23
+2026-11-17T10:35:20.864620Z	    9 Query	SELECT * FROM sales_unnormalized_2 WHERE customer_name = 'Испания'
+2026-11-17T10:35:31.561425Z	    9 Query	INSERT INTO sales_unnormalized_2 VALUES
+(1102, '2026-03-07', 23, 'Испания', 103, 'Яблоки', 120, 1700)
+2026-11-17T10:36:49.595850Z	    9 Query	INSERT INTO sales_unnormalized_2 VALUES
+(1102, '2026-03-07', 23, 'Испания', 103, 'Яблоки', 120, 1700)
+2026-11-17T10:36:55.032801Z	    9 Query	INSERT INTO sales_unnormalized_2 (customer_id, customer_name) 
+VALUES (99, 'Новый покупатель')
+2026-11-17T10:36:55.671917Z	    9 Query	SELECT * FROM sales_unnormalized_2 WHERE customer_id = 99
+2026-11-17T10:37:00.958903Z	    9 Query	DELETE FROM sales_unnormalized_2 WHERE customer_id = 99
+2026-11-17T10:37:06.340804Z	    9 Query	UPDATE sales_unnormalized_2 
+SET customer_name = 'Дания' 
+WHERE customer_name = 'Дания-РФ'
+2026-11-17T10:37:07.206149Z	    9 Query	SELECT * FROM sales_unnormalized_2
+2026-11-17T10:37:17.104160Z	    9 Quit	
+2026-11-17T10:37:22.348461Z	   10 Connect	root@localhost on  using Socket
+2026-11-17T10:37:22.348750Z	   10 Query	/*!40100 SET @@SQL_MODE='' */
+2026-11-17T10:37:22.348950Z	   10 Query	/*!40103 SET TIME_ZONE='+00:00' */
+2026-11-17T10:37:22.349061Z	   10 Query	/*!80000 SET SESSION information_schema_stats_expiry=0 */
+2026-11-17T10:37:22.349169Z	   10 Query	SET SESSION NET_READ_TIMEOUT= 86400, SESSION NET_WRITE_TIMEOUT= 86400
+2026-11-17T10:37:22.349282Z	   10 Query	SHOW VARIABLES LIKE 'gtid_mode'
+2026-11-17T10:37:22.353108Z	   10 Query	SELECT LOGFILE_GROUP_NAME, FILE_NAME, TOTAL_EXTENTS, INITIAL_SIZE, ENGINE, EXTRA FROM INFORMATION_SCHEMA.FILES WHERE ENGINE = 'ndbcluster' AND FILE_TYPE = 'UNDO LOG' AND FILE_NAME IS NOT NULL AND LOGFILE_GROUP_NAME IS NOT NULL AND LOGFILE_GROUP_NAME IN (SELECT DISTINCT LOGFILE_GROUP_NAME FROM INFORMATION_SCHEMA.FILES WHERE ENGINE = 'ndbcluster' AND FILE_TYPE = 'DATAFILE' AND TABLESPACE_NAME IN (SELECT DISTINCT TABLESPACE_NAME FROM INFORMATION_SCHEMA.PARTITIONS WHERE TABLE_SCHEMA IN ('sales_norm'))) GROUP BY LOGFILE_GROUP_NAME, FILE_NAME, ENGINE, TOTAL_EXTENTS, INITIAL_SIZE ORDER BY LOGFILE_GROUP_NAME
+2026-11-17T10:37:22.358582Z	   10 Query	SELECT DISTINCT TABLESPACE_NAME, FILE_NAME, LOGFILE_GROUP_NAME, EXTENT_SIZE, INITIAL_SIZE, ENGINE FROM INFORMATION_SCHEMA.FILES WHERE FILE_TYPE = 'DATAFILE' AND TABLESPACE_NAME IN (SELECT DISTINCT TABLESPACE_NAME FROM INFORMATION_SCHEMA.PARTITIONS WHERE TABLE_SCHEMA IN ('sales_norm')) ORDER BY TABLESPACE_NAME, LOGFILE_GROUP_NAME
+2026-11-17T10:37:22.359334Z	   10 Query	SHOW VARIABLES LIKE 'ndbinfo\_version'
+2026-11-17T10:37:22.361176Z	   10 Init DB	sales_norm
+2026-11-17T10:37:22.361304Z	   10 Query	show tables
+2026-11-17T10:37:22.361892Z	   10 Query	LOCK TABLES `sales_unnormalized_2` READ /*!32311 LOCAL */
+2026-11-17T10:37:22.362061Z	   10 Query	show table status like 'sales\_unnormalized\_2'
+2026-11-17T10:37:22.362716Z	   10 Query	SET SQL_QUOTE_SHOW_CREATE=1
+2026-11-17T10:37:22.362862Z	   10 Query	SET SESSION character_set_results = 'binary'
+2026-11-17T10:37:22.362997Z	   10 Query	show create table `sales_unnormalized_2`
+2026-11-17T10:37:22.363196Z	   10 Query	SET SESSION character_set_results = 'utf8mb4'
+2026-11-17T10:37:22.363307Z	   10 Query	show fields from `sales_unnormalized_2`
+2026-11-17T10:37:22.364774Z	   10 Query	show fields from `sales_unnormalized_2`
+2026-11-17T10:37:22.365350Z	   10 Query	SELECT /*!40001 SQL_NO_CACHE */ * FROM `sales_unnormalized_2`
+2026-11-17T10:37:22.365551Z	   10 Query	SET SESSION character_set_results = 'binary'
+2026-11-17T10:37:22.365685Z	   10 Query	use `sales_norm`
+2026-11-17T10:37:22.365809Z	   10 Query	select @@collation_database
+2026-11-17T10:37:22.365946Z	   10 Query	SHOW TRIGGERS LIKE 'sales\_unnormalized\_2'
+2026-11-17T10:37:22.366790Z	   10 Query	SET SESSION character_set_results = 'utf8mb4'
+2026-11-17T10:37:22.366896Z	   10 Query	SET SESSION character_set_results = 'binary'
+2026-11-17T10:37:22.367025Z	   10 Query	SELECT COLUMN_NAME,                       JSON_EXTRACT(HISTOGRAM, '$."number-of-buckets-specified"')                FROM information_schema.COLUMN_STATISTICS                WHERE SCHEMA_NAME = 'sales_norm' AND TABLE_NAME = 'sales_unnormalized_2'
+2026-11-17T10:37:22.367395Z	   10 Query	SET SESSION character_set_results = 'utf8mb4'
+2026-11-17T10:37:22.367486Z	   10 Query	UNLOCK TABLES
+2026-11-17T10:37:22.367595Z	   10 Quit	
+2026-11-17T10:38:09.483351Z	   11 Connect	root@localhost on  using Socket
+2026-11-17T10:38:09.483831Z	   11 Query	select @@version_comment limit 1
+2026-11-17T10:38:21.389681Z	   11 Query	SELECT DATABASE()
+2026-11-17T10:38:21.389957Z	   11 Init DB	sales_norm
+2026-11-17T10:38:21.390853Z	   11 Query	show databases
+2026-11-17T10:38:21.391890Z	   11 Query	show tables
+2026-11-17T10:38:21.392883Z	   11 Field List	sales_unnormalized_2 
+2026-11-17T10:38:28.902435Z	   11 Query	SELECT DATABASE()
+2026-11-17T10:38:28.902789Z	   11 Init DB	sales_norm
+2026-11-17T10:38:28.905192Z	   11 Query	CREATE TABLE customers (
+    customer_id   INT PRIMARY KEY,
+    customer_name VARCHAR(100) NOT NULL
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+2026-11-17T10:38:28.991818Z	   11 Query	CREATE TABLE products (
+    product_id    INT PRIMARY KEY,
+    product_name  VARCHAR(100) NOT NULL,
+    price         DECIMAL(10,2) NOT NULL
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+2026-11-17T10:38:29.064645Z	   11 Query	CREATE TABLE reports (
+    report_id     INT PRIMARY KEY,
+    report_date   DATE NOT NULL,
+    customer_id   INT NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+2026-11-17T10:38:29.849331Z	   11 Query	CREATE TABLE report_items (
+    report_id   INT NOT NULL,
+    product_id  INT NOT NULL,
+    quantity    INT NOT NULL,
+    PRIMARY KEY (report_id, product_id),
+    FOREIGN KEY (report_id)  REFERENCES reports(report_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+2026-11-17T10:38:39.008164Z	   11 Query	SHOW TABLES
+2026-11-17T10:38:39.010207Z	   11 Query	DESCRIBE customers
+2026-11-17T10:38:39.015324Z	   11 Query	DESCRIBE products
+2026-11-17T10:38:39.017473Z	   11 Query	DESCRIBE reports
+2026-11-17T10:38:49.651285Z	   11 Query	DESCRIBE report_items
+2026-11-17T10:39:26.944974Z	   11 Query	SELECT * FROM customers
+2026-11-17T10:39:26.946346Z	   11 Query	SELECT * FROM products
+2026-11-17T10:39:26.947258Z	   11 Query	SELECT * FROM reports
+2026-11-17T10:39:28.014831Z	   11 Query	SELECT * FROM report_items
+2026-11-17T10:40:41.346013Z	   11 Query	SELECT SUM(price * quantity) AS total_old FROM sales_unnormalized_2
+2026-11-17T10:40:41.347502Z	   11 Query	SELECT SUM(p.price * ri.quantity) AS total_new
+FROM report_items ri
+JOIN products p ON ri.product_id = p.product_id
+2026-11-17T10:40:41.348811Z	   11 Query	SELECT COUNT(*) AS customers_count FROM customers
+2026-11-17T10:40:41.349979Z	   11 Query	SELECT COUNT(*) AS products_count FROM products
+2026-11-17T10:40:41.351418Z	   11 Query	SELECT COUNT(*) AS reports_count FROM reports
+2026-11-17T10:40:42.548190Z	   11 Query	SELECT COUNT(*) AS items_count FROM report_items
+2026-11-17T10:40:56.186420Z	   11 Query	SELECT SUM(p.price * ri.quantity) AS total_spent
+FROM customers c
+JOIN reports r ON c.customer_id = r.customer_id
+JOIN report_items ri ON r.report_id = ri.report_id
+JOIN products p ON ri.product_id = p.product_id
+WHERE c.customer_id = 12
+2026-11-17T10:41:22.324681Z	   11 Query	INSERT INTO customers (customer_id, customer_name)
+SELECT DISTINCT customer_id, customer_name 
+FROM sales_unnormalized_2
+2026-11-17T10:41:28.038442Z	   11 Query	INSERT INTO products (product_id, product_name, price)
+SELECT DISTINCT product_id, product_name, price 
+FROM sales_unnormalized_2
+2026-11-17T10:41:33.647538Z	   11 Query	INSERT INTO reports (report_id, report_date, customer_id)
+SELECT DISTINCT report_id, report_date, customer_id 
+FROM sales_unnormalized_2
+2026-11-17T10:41:42.497685Z	   11 Query	INSERT INTO report_items (report_id, product_id, quantity)
+SELECT report_id, product_id, quantity 
+FROM sales_unnormalized_2
+2026-11-17T10:42:39.469125Z	   11 Query	TRUNCATE TABLE report_items
+2026-11-17T10:42:46.736947Z	   11 Query	SELECT COUNT(*) FROM report_items
+2026-11-17T10:42:52.075201Z	   11 Query	SELECT COUNT(*) FROM customers
+2026-11-17T10:42:52.077806Z	   11 Query	SELECT COUNT(*) FROM products
+2026-11-17T10:43:02.840619Z	   11 Query	SELECT COUNT(*) FROM reports
+2026-11-17T10:43:06.794168Z	   11 Query	INSERT INTO report_items (report_id, product_id, quantity)
+SELECT report_id, product_id, quantity 
+FROM sales_unnormalized_2
+2026-11-17T10:44:03.315555Z	   11 Query	INSERT INTO report_items (report_id, product_id, quantity)
+SELECT report_id, product_id, quantity 
+FROM sales_unnormalized_2
+2026-11-17T10:44:09.170325Z	   11 Query	INSERT IGNORE INTO report_items (report_id, product_id, quantity)
+SELECT report_id, product_id, quantity 
+FROM sales_unnormalized_2
+2026-11-17T10:44:15.947316Z	   11 Query	SELECT COUNT(*) FROM report_items
+2026-11-17T10:44:22.129544Z	   11 Query	SELECT * FROM report_items
+2026-11-17T10:44:22.130841Z	   11 Query	SELECT SUM(price * quantity) AS total_old FROM sales_unnormalized_2
+2026-11-17T10:45:24.131771Z	   11 Query	SELECT SUM(p.price * ri.quantity) AS total_new
+FROM report_items ri
+JOIN products p ON ri.product_id = p.product_id
+2026-11-17T10:46:31.676562Z	   11 Query	DELETE FROM sales_unnormalized_2 
+WHERE report_id = 1102 AND product_id = 103
+LIMIT 1
+2026-11-17T10:46:37.673577Z	   11 Query	SELECT SUM(price * quantity) AS total_old FROM sales_unnormalized_2
+2026-11-17T10:46:43.692045Z	   11 Query	SELECT COUNT(*) AS customers FROM customers
+2026-11-17T10:46:43.695987Z	   11 Query	SELECT COUNT(*) AS products FROM products
+2026-11-17T10:46:43.700848Z	   11 Query	SELECT COUNT(*) AS reports FROM reports
+2026-11-17T10:46:44.817278Z	   11 Query	SELECT COUNT(*) AS items FROM report_items
+2026-11-17T10:46:55.261754Z	   11 Query	SELECT SUM(p.price * ri.quantity) AS total_spent
+FROM customers c
+JOIN reports r ON c.customer_id = r.customer_id
+JOIN report_items ri ON r.report_id = ri.report_id
+JOIN products p ON ri.product_id = p.product_id
+WHERE c.customer_id = 12
+2026-11-17T10:52:36.870463Z	   11 Quit	
